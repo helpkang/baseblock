@@ -5,6 +5,10 @@
 ### client block info
 ### request client state, and self info compare
 
+## implement
+### config seperate
+host ip or name and port configuration.
+
 
 # node
 
