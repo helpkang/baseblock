@@ -1,6 +1,6 @@
 # register server
 
-## save client ip, port
+## client request from client ip, port save
 ### client distinguish mechanism.
 ### client block info
 ### request client state, and self info compare
@@ -10,7 +10,7 @@
 host ip or name and port configuration.
 
 
-# node
+# client node
 
 ## register server
 ### ip port server register

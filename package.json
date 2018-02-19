@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start:server": "node p2p/tracker/index"
+  },
   "devDependencies": {
     "@types/express": "^4.11.1",
     "@types/lodash": "^4.14.103",
@@ -13,6 +16,7 @@
   },
   "dependencies": {
     "express": "^4.16.2",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "underscore": "^1.8.3"
   }
 }
