@@ -18,7 +18,7 @@ class ClientStore {
     }
 
     getArrayFilterRandom(client, length=3){
-        let arrClients = Array.from(this.clients).filter((value)=> value !== client)
+        let arrClients = this.getArray().filter((value)=> value !== client)
         return _.sample(arrClients, length)
     }
 

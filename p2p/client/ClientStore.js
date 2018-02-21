@@ -4,8 +4,13 @@ const _ = require("underscore")
 class ClientStore {
     constructor() {
         this.clients = new Set()
-        this.cache = new NodeCache({ stdTTL: 3, checkperiod: 1 });
+        this.cache = new NodeCache({ stdTTL: 100, checkperiod: 10 });
         this.cache.on("expired",  (key, value) => this.clients.delete(key) )
+    }
+
+    addAll(clients){
+        clients.split('|')
+        .forEach(client=>this.add(client))
     }
 
     add(client){
@@ -17,8 +22,8 @@ class ClientStore {
         return Array.from(this.clients)
     }
 
-    getArrayFilterRandom(client, length=3){
-        let arrClients = Array.from(this.clients).filter((value)=> value !== client)
+    getArrayFilterRandom(length){
+        let arrClients = this.getArray()
         return _.sample(arrClients, length)
     }
 

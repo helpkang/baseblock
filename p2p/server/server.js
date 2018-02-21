@@ -7,7 +7,7 @@ const ServerStore = require('./ServerStore')
 const serverStore = new ServerStore()
 
 const UdpServer = require('./UdpServer')
-const udpServer = new UdpServer(config.host, config.port)
+const udpServer = new UdpServer(config.address, config.port)
 
 udpServer.onMessage(function (message, remote) {
 
@@ -28,10 +28,9 @@ udpServer.bind()
 
 function sendClients(client, remote) {
 
-    const text = serverStore.getArrayFilterRandom(client, 3).join("|")
-
+    let text = serverStore.getArrayFilterRandom(client, 3).join("|")
     udpServer.send(text, remote, function (err, nrOfBytesSent) {
         if (err) return log(err);
-        log('> send ', remote.address, remote.port);
+        log('> send ', text, remote.address, remote.port);
     });
 }

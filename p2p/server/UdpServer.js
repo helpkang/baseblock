@@ -3,14 +3,14 @@ const dgram = require('dgram')
 const _ = require("underscore")
 
 class UdpServer {
-    constructor(host, port) {
-        this.host = host
+    constructor(address, port) {
+        this.address = address
         this.port = port
         this.socket = dgram.createSocket('udp4');
     }
 
     bind() {
-        return this.socket.bind(this.port, this.host);
+        return this.socket.bind(this.port, this.address);
     }
 
     listening(fn) {
