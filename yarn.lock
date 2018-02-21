@@ -3132,7 +3132,7 @@ undefsafe@^2.0.1:
 
 underscore@^1.8.3:
   version "1.8.3"
-  resolved "http://169.56.102.91:8081/nexus/content/groups/npm-all/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
+  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.8.3.tgz#4f3fb53b106e6097fcf9cb4109f2a5e9bdfa5022"
 
 union-value@^1.0.0:
   version "1.0.0"
