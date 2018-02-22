@@ -27,7 +27,7 @@ udpClient.onMessage(function (buf, remote) {
 	}
 })
 
-function sendMessageToS() {
+function registerToServer() {
 
 	var message = new Buffer('');
 	udpClient.send(message, config, function (err, nrOfBytesSent) {
@@ -36,8 +36,8 @@ function sendMessageToS() {
 	});
 
 }
-sendMessageToS()
-setInterval(sendMessageToS, 2000)
+registerToServer()
+setInterval(registerToServer, 2000)
 
 
 
@@ -54,5 +54,5 @@ function sendRandom(){
 	if(clients.length !== 1) return
 	const client = clients[0].split(',')
 	const clientInfo = {address: client[0], port: parseInt(client[1])}
-	udpClient.send(rand+" randome", clientInfo, ()=>{})
+	udpClient.send(rand+" random hello message!!!", clientInfo, ()=>{})
 }
