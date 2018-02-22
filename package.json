@@ -6,7 +6,8 @@
   "scripts": {
     "server": "cross-env DEBUG=* node p2p/server/server",
     "client": "node p2p/client/client",
-    "f": "node p2p/client/FileSplit"
+    "f": "node p2p/client/file/FileSplit",
+    "fr": "node p2p/client/file/FileRandomRead"
   },
   "devDependencies": {
     "@types/express": "^4.11.1",
