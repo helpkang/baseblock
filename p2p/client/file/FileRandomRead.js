@@ -1,6 +1,8 @@
 const Promise = require("bluebird")
 const fs = Promise.promisifyAll(require("fs"))
 
+const crypto = require('crypto')
+
 class FileRandomRead {
     constructor() {
         this.fileName = './sample/sample.txt'
@@ -18,13 +20,34 @@ class FileRandomRead {
         
     }
 
+   async makeHash(){
+        const stream = fs.createReadStream(this.fileName, {
+            highWaterMark: 1024
+        })
+
+        const wfd = await fs.openAsync(this.fileName+'.hash', 'w')
+
+        
+        stream.on('data', (chunk) => {
+            const sha256 = crypto.createHash('sha256')
+            const hash = sha256.update(chunk).digest('base64')+'\n'
+            fs.write(wfd, hash)
+
+        }).on('end', () => {
+            fs.close(wfd)
+        })
+
+    }
+
 }
 
 async function read() {
     const frr = new FileRandomRead()
     let l
-        l = await frr.read(100)
-        if(l)console.log(l.toString())
+    l = await frr.read(100)
+    if(l)console.log(l.toString())
 }
 
-read()
+// read()
+const frr = new FileRandomRead()
+frr.makeHash()
