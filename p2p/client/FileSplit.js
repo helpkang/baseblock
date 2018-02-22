@@ -3,13 +3,23 @@ const Promise = require("bluebird")
 const fs = require("fs")
 
 class FileSplit{
-    async readfile(){
-        const readStream = fs.createReadStream('c:/NEWS.txt', {highWaterMark:1024*10})
-        readStream.on('data', function(chunk){
-            console.log('data', chunk.toString())
-            console.log('**************************************************************')
+    constructor(){
+        this.stream = fs.createReadStream('c:/NEWS.txt', {highWaterMark:1024*10})
+        this.stream.pause
+        this.stream.on('data', function(chunk){
+            this.stream.pause()
+            resolver(chunk)
+        
         }).on('end', function(){
-            console.log('end...')
+            resolver(null)
+        })
+
+    } 
+    readfile(){
+        if(stream.isPaused()){
+            this.stream.resume()
+        }
+        return new Promise((resolver, reject)=>{
         })
     }
 }
