@@ -1,11 +1,15 @@
 const Promise = require("bluebird")
 const fs = Promise.promisifyAll(require("fs"))
 
+
 const crypto = require('crypto')
+
+const zlib = require('zlib');
 
 class FileRandomRead {
     constructor() {
         this.fileName = './sample/sample.txt'
+        this.hashFileName = './dist/sample'
     }
 
     async read(length = 10) {
@@ -20,21 +24,45 @@ class FileRandomRead {
         
     }
 
-   async makeHash(){
+   async makeHash(encoding=''){
         const stream = fs.createReadStream(this.fileName, {
             highWaterMark: 1024
         })
 
-        const wfd = await fs.openAsync(this.fileName+'.hash', 'w')
+        const wfd = await fs.openAsync(this.hashFileName+'.hash'+encoding, 'w')
 
         
         stream.on('data', (chunk) => {
-            const sha256 = crypto.createHash('sha256')
-            const hash = sha256.update(chunk).digest('base64')+'\n'
-            fs.write(wfd, hash)
+            console.log(chunk.length)
+            const hashfunc = crypto.createHash('rmd160')
+            const hash = hashfunc.update(chunk).digest(encoding)
+            console.log('hash len', hash.length)
+            fs.writeAsync(wfd, hash)
+
+        }).on('end', async () => {
+            // await fs.flush()
+            await fs.closeAsync(wfd)
+        })
+
+    }
+   async makeHashGzip(){
+        const stream = fs.createReadStream(this.fileName, {
+            highWaterMark: 1024
+        })
+
+        const out = fs.createWriteStream(this.hashFileName+'.hash.gzip');
+        const zipStream = zlib.createGzip();
+        zipStream.pipe(out)
+        stream.on('data', (chunk) => {
+            console.log(chunk.length)
+            const hashfunc = crypto.createHash('rmd160')
+            const hash = hashfunc.update(chunk).digest()
+            console.log('hash len', hash.length)
+            zipStream.write(hash, ()=>{ })
 
         }).on('end', () => {
-            fs.close(wfd)
+            zipStream.flush()
+            // zipStream.close(()=>{})
         })
 
     }
@@ -50,4 +78,6 @@ async function read() {
 
 // read()
 const frr = new FileRandomRead()
+frr.makeHashGzip()
 frr.makeHash()
+frr.makeHash('base64')
