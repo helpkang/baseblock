@@ -10,68 +10,72 @@ class FileRandomRead {
     constructor() {
         this.fileName = './sample/sample.txt'
         this.hashFileName = './dist/sample'
-        this.createDir('./dist')
     }
+
     createDir(dir) {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
         }
     }
+
     async read(length = 10) {
         const fd = await fs.openAsync(this.fileName, 'r')
-
-
+        
+        
         const buffer = new Buffer(length);
         const start = 0
-
+        
         await fs.readAsync(fd, buffer, 0, length, start);
         return buffer
-
+        
     }
-
-    async makeHash(encoding = '') {
+    
+    async makeHash(encoding = '', algorithum='rmd160') {
+        this.createDir('./dist')
         const stream = fs.createReadStream(this.fileName, {
             highWaterMark: 1024
         })
-
+        
         const wfd = await fs.openAsync(this.hashFileName + '.hash' + encoding, 'w')
-
-
+        
+        
         stream.on('data', (chunk) => {
             console.log(chunk.length)
-            const hashfunc = crypto.createHash('rmd160')
+            const hashfunc = crypto.createHash(algorithum)
             const hash = hashfunc.update(chunk).digest(encoding)
             console.log('hash len', hash.length)
             fs.writeAsync(wfd, hash)
-
+            
         }).on('end', async () => {
             // await fs.flush()
             await fs.closeAsync(wfd)
         })
-
+        
     }
-    async makeHashGzip() {
+
+    async makeHashGzip(algorithum='rmd160') {
+        this.createDir('./dist')
         const stream = fs.createReadStream(this.fileName, {
             highWaterMark: 1024
         })
-
+        
         const out = fs.createWriteStream(this.hashFileName + '.hash.gzip');
         const zipStream = zlib.createGzip();
         zipStream.pipe(out)
         stream.on('data', (chunk) => {
             console.log(chunk.length)
-            const hashfunc = crypto.createHash('rmd160')
+            const hashfunc = crypto.createHash(algorithum)
             const hash = hashfunc.update(chunk).digest()
             console.log('hash len', hash.length)
             zipStream.write(hash, () => {})
-
+            
         }).on('end', () => {
             zipStream.flush()
             // zipStream.close(()=>{})
         })
-
+        
     }
-
+    
 }
 
 async function read() {
@@ -84,5 +88,5 @@ async function read() {
 // read()
 const frr = new FileRandomRead()
 frr.makeHashGzip()
-frr.makeHash()
+frr.makeHash('hex', 'md5')
 frr.makeHash('base64')

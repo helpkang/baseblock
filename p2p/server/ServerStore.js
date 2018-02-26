@@ -4,8 +4,8 @@ const _ = require("underscore")
 class ClientStore {
     constructor() {
         this.clients = new Set()
-        this.cache = new NodeCache({ stdTTL: 3, checkperiod: 1 });
-        this.cache.on("expired",  (key, value) => this.clients.delete(key) )
+        this.cache = new NodeCache({ stdTTL: 6, checkperiod: 1 });
+        this.cache.on("expired",  ( value) => this.clients.delete(value) )
     }
 
     add(client){

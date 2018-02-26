@@ -5,7 +5,7 @@ class ClientStore {
     constructor() {
         this.clients = new Set()
         this.cache = new NodeCache({ stdTTL: 100, checkperiod: 10 });
-        this.cache.on("expired",  (key, value) => this.clients.delete(key) )
+        this.cache.on("expired",  (value) => this.clients.delete(value) )
     }
 
     addAll(clients){
