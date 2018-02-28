@@ -1,17 +1,21 @@
 
 const _ = require("underscore")
 
+const FileRandomRmd160 = require('./file/FileRandomRmd160')
+
+const CommandUtil = require('./utils/CommandUtil')
 
 const config = require('./config')
 
-const UdpClient = require('./UdpClient')
+const UdpClient = require('../common/UdpClient')
 const udpClient = new UdpClient()
 
+const Command = require('../common/Command')
 const ClientStore = require('./ClientStore')
 const clientStore = new ClientStore()
 
 
-
+const svrRegCommand = new Command(config)
 udpClient.onMessage(function (buf, remote) {
 	if (isServerMessage(remote)) {
 		const message = buf.toString()
@@ -21,8 +25,8 @@ udpClient.onMessage(function (buf, remote) {
 		sendMessage()
 	} else {
 		try {
-			const message = buf.toString()
-			console.log('receive', message)
+			const { command, data } = CommandUtil.paseCommandData(buf)
+			console.log('receive', command, data.toString())
 		} catch (e) {
 			console.log(e)
 		}
@@ -31,11 +35,11 @@ udpClient.onMessage(function (buf, remote) {
 
 function registerToServer() {
 
-	var message = new Buffer('');
-	udpClient.send(message, config, function (err, nrOfBytesSent) {
-		if (err) return console.log(err);
-		console.log('UDP message sent to ' + config.address + ':' + config.port);
-	});
+	svrRegCommand.exec('')
+	// udpClient.send('', config, function (err, nrOfBytesSent) {
+	// 	if (err) return console.log(err);
+	// 	console.log('UDP message sent to ' + config.address + ':' + config.port);
+	// });
 
 }
 
@@ -49,12 +53,11 @@ setInterval(registerToServer, config.interval * 1000)
 
 
 
-
+//TODO: tracekr에서 온걸 확인 하기 위해서 인증서 기반으로 처리 하다록 변경
 function isServerMessage(remote) {
 	return config.address === remote.address && config.port === remote.port
 }
 
-const FileRandomRmd160 = require('./file/FileRandomRmd160')
 
 function sendMessage() {
 	if (!command) return
@@ -72,23 +75,14 @@ function sendMessage() {
 					split: 2 * 1024
 				}
 			)
-			hashes.forEach((hash)=>{
-				console.log('send')
-				udpClient.send(hash, clientInfo, () => { })
-			})
+
+
+			const data = Buffer.from(JSON.stringify(hashes))
+			const message = CommandUtil.makeCommandData('hash', data)
+			console.log(message.toString())
+			// udpClient.sendBuffer(message, clientInfo, () => { })
+			new Command(clientInfo).execBuffer(message)
+
 		}
 	)
 }
-
-
-// (async () => {
-//     const frr = new FileRandomRead()
-//     const hashes = await frr.makeHash(
-//         {
-//             encoding: 'base64',
-//             fileName: './sample/sample.txt',
-//             split: 2*1024
-//         }
-//     )
-//     console.log(hashes)
-// })()

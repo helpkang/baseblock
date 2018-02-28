@@ -1,22 +1,22 @@
 const dgram = require('dgram')
 const _ = require("underscore")
+const socket = dgram.createSocket('udp4');
 
 class UdpClinet {
 
     constructor() {
-        this.socket = dgram.createSocket('udp4');
     }
 
 
     onMessage(fn) {
-        this.socket.on('message', (message, remote) => {
+        socket.on('message', (message, remote) => {
             fn(message, remote)
         })
     }
 
     send(text, remote, fn) {
         const buffer = new Buffer(text)
-        this.socket.send(buffer, 0, buffer.length, remote.port, remote.address,
+        socket.send(buffer, 0, buffer.length, remote.port, remote.address,
             function (err, nrOfBytesSent) {
                 fn(err, nrOfBytesSent)
             }
@@ -24,7 +24,7 @@ class UdpClinet {
     }
     
     sendBuffer(buffer, remote, fn) {
-        this.socket.send(buffer, 0, buffer.length, remote.port, remote.address,
+        socket.send(buffer, 0, buffer.length, remote.port, remote.address,
             function (err, nrOfBytesSent) {
                 fn(err, nrOfBytesSent)
             }
