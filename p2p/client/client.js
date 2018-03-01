@@ -7,16 +7,16 @@ const CommandUtil = require('./utils/CommandUtil')
 
 const config = require('./config')
 
-const UdpClient = require('../common/UdpClient')
-const udpClient = new UdpClient()
+const udpFactory = require('../common/udpFactory')
 
 const Command = require('../common/Command')
 const ClientStore = require('./ClientStore')
 const clientStore = new ClientStore()
 
 
-const svrRegCommand = new Command(config)
-udpClient.onMessage(function (buf, remote) {
+const svrRegCommand = new Command(config, udpFactory.get())
+
+udpFactory.get().onMessage(function (buf, remote) {
 	if (isServerMessage(remote)) {
 		const message = buf.toString()
 		if (!message) return
@@ -36,7 +36,7 @@ udpClient.onMessage(function (buf, remote) {
 function registerToServer() {
 
 	svrRegCommand.exec('')
-	// udpClient.send('', config, function (err, nrOfBytesSent) {
+	// udpFactory.get().send('', config, function (err, nrOfBytesSent) {
 	// 	if (err) return console.log(err);
 	// 	console.log('UDP message sent to ' + config.address + ':' + config.port);
 	// });
@@ -79,9 +79,9 @@ function sendMessage() {
 
 			const data = Buffer.from(JSON.stringify(hashes))
 			const message = CommandUtil.makeCommandData('hash', data)
-			console.log(message.toString())
-			// udpClient.sendBuffer(message, clientInfo, () => { })
-			new Command(clientInfo).execBuffer(message)
+			// console.log(message.toString())
+
+			new Command(clientInfo, udpFactory.get()).exec(message)
 
 		}
 	)

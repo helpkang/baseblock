@@ -15,12 +15,8 @@ class UdpClinet {
     }
 
     send(text, remote, fn) {
-        const buffer = new Buffer(text)
-        socket.send(buffer, 0, buffer.length, remote.port, remote.address,
-            function (err, nrOfBytesSent) {
-                fn(err, nrOfBytesSent)
-            }
-        );
+        const buf = new Buffer(text)
+        this.sendBuffer(buf)
     }
     
     sendBuffer(buffer, remote, fn) {
