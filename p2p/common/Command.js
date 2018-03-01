@@ -1,20 +1,14 @@
-const UdpClient = require('./UdpClient')
-
-const udpClient = new UdpClient()
 module.exports = class Command {
 
-    constructor(dest) {
+    constructor(dest, udpClient) {
         this.dest = dest
+        this.udpClient = udpClient
     }
 
     exec(message) {
-        udpClient.send(message, this.dest, (err, nrOfBytesSent)=> {
-            if (err) return console.log(err);
-            console.log('UDP message sent to ' + this.dest.address + ':' + this.dest.port);
-        });
-    }
-    execBuffer(message) {
-        udpClient.sendBuffer(message, this.dest, (err, nrOfBytesSent)=> {
+        const buf = (message instanceof Buffer) ? message : Buffer.from(message)
+
+        this.udpClient.sendBuffer(buf, this.dest, (err, nrOfBytesSent) => {
             if (err) return console.log(err);
             console.log('UDP message sent to ' + this.dest.address + ':' + this.dest.port);
         });
