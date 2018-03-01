@@ -6,7 +6,6 @@
   "scripts": {
     "server": "cross-env DEBUG=* node p2p/server/server",
     "client": "node p2p/client/client",
-    "client2": "node p2p/client/client qqq",
     "fr": "node p2p/client/file/FileRandomRmd160",
     "f": "node p2p/client/file/FileSplit"
   },
