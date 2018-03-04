@@ -3,7 +3,7 @@ const _ = require("underscore")
 
 const FileRandomRmd160 = require('./file/FileRandomRmd160')
 
-const CommandUtil = require('./utils/CommandUtil')
+const CommandUtil = require('../common/utils/CommandUtil')
 
 const config = require('./config')
 
@@ -12,6 +12,8 @@ const udpFactory = require('../common/udpFactory')
 const Command = require('../common/Command')
 const ClientStore = require('./ClientStore')
 const clientStore = new ClientStore()
+
+const commandHandlerRegister = require('../common/CommandHandlerRegister')
 
 
 const svrRegCommand = new Command(config, udpFactory.get())
@@ -25,8 +27,8 @@ udpFactory.get().onMessage(function (buf, remote) {
 		sendMessage()
 	} else {
 		try {
-			const { command, data } = CommandUtil.paseCommandData(buf)
-			console.log('receive', command, data.toString())
+			const { commandStr, data } = CommandUtil.paseCommandData(buf)
+			console.log('receive', commandStr, data.toString())
 		} catch (e) {
 			console.log(e)
 		}
@@ -34,13 +36,7 @@ udpFactory.get().onMessage(function (buf, remote) {
 })
 
 function registerToServer() {
-
 	svrRegCommand.exec('')
-	// udpFactory.get().send('', config, function (err, nrOfBytesSent) {
-	// 	if (err) return console.log(err);
-	// 	console.log('UDP message sent to ' + config.address + ':' + config.port);
-	// });
-
 }
 
 const command = process.argv.slice(2)[0] ? process.argv.slice(2)[0] : ''
@@ -79,8 +75,6 @@ function sendMessage() {
 
 			const data = Buffer.from(JSON.stringify(hashes))
 			const message = CommandUtil.makeCommandData('hash', data)
-			// console.log(message.toString())
-
 			new Command(clientInfo, udpFactory.get()).exec(message)
 
 		}

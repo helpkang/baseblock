@@ -34,10 +34,11 @@ module.exports = {
 
     paseCommandData(buffer) {
         const commandLen = buffer.readUInt8(0)
-        const command = buffer.slice(1, commandLen+1).toString()
+        
+        const commandStr = buffer.slice(1, commandLen+1).toString()
         const data = buffer.slice(commandLen+1)
 
-        return { command, data }
+        return { commandStr, data }
     },
 
 }
