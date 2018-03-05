@@ -28,6 +28,9 @@ udpFactory.get().onMessage(function (buf, remote) {
 		sendMessage()
 	} else {
 		try {
+			//TODO: command 클라이언트 처리 필요
+			//TODO: handler에 register 필요
+			//TODO md에 만들고 아이들 연결 할 수 있도록 한다.
 			const { commandStr, data } = CommandUtil.paseCommandData(buf)
 			console.log('receive', commandStr, data.toString())
 		} catch (e) {
