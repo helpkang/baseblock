@@ -6,9 +6,7 @@ module.exports = class Command {
     }
 
     exec(message) {
-        const buf = (message instanceof Buffer) ? message : Buffer.from(message)
-        this._send(buf)
-
+        throw new Error('exec function must implmented.')
     }
 
     _send(buf){

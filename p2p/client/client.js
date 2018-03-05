@@ -11,13 +11,14 @@ const udpFactory = require('../common/udp/udpFactory')
 
 const Command = require('../common/command/Command')
 const HashCommand = require('./command/HashCommand')
+const RegisterCommand = require('./command/RegisterCommand')
 const ClientStore = require('./ClientStore')
 const clientStore = new ClientStore()
 
 const commandHandlerRegister = require('../common/command/CommandHandlerRegister')
 
 
-const svrRegCommand = new Command(config, udpFactory.get())
+const registerCommand = new RegisterCommand(config, udpFactory.get())
 
 udpFactory.get().onMessage(function (buf, remote) {
 	if (isServerMessage(remote)) {
@@ -40,7 +41,7 @@ udpFactory.get().onMessage(function (buf, remote) {
 })
 
 function registerToServer() {
-	svrRegCommand.exec('')
+	registerCommand.exec('')
 }
 
 const commandArg = process.argv.slice(2)[0] ? process.argv.slice(2)[0] : ''
