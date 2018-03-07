@@ -1,9 +1,9 @@
 const CommandHandler = require('../../common/command/CommandHandler')
 
-module.exports = class HashHandler extends CommandHandler {
+module.exports = class SendHashHandler extends CommandHandler {
 
     handle(commandStr, buffer, remote) {
-        console.log('hash', buffer.toString())
+        console.log('sendhash', buffer.toString())
     }
 
 

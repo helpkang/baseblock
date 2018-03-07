@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "server": "cross-env DEBUG=* node p2p/server/server",
-    "client": "node p2p/client/client",
+    "client": "node p2p/client/client ./sample/sample.txt",
+    "client2": "node p2p/client/client ./dist/client2",
+    "clientt": "node p2p/client/client",
     "fr": "node p2p/client/file/FileRandomRmd160",
     "f": "node p2p/client/file/FileSplit"
   },

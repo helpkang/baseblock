@@ -1,7 +1,7 @@
 const CommandHandler = require('../../common/command/CommandHandler')
 
 const FileRandomRmd160 = require('../file/FileRandomRmd160')
-const SendHashCommand = require('../command/SendHashCommand')
+const HashCommand = require('../command/HashCommand')
 const udpFactory = require('../../common/udp/udpFactory')
 module.exports = class ClientListHandler extends CommandHandler {
     constructor(clientStore, config, blockFolder) {
@@ -29,7 +29,7 @@ module.exports = class ClientListHandler extends CommandHandler {
         const hashes = await frr.makeHash(
             {
                 encoding: 'base64',
-                fileName: this.blockFolder,
+                fileName: './sample/sample.txt',
                 split: 2 * 1024
             }
         )
@@ -41,7 +41,7 @@ module.exports = class ClientListHandler extends CommandHandler {
 
                 const client = clientData.split(',')
                 const clientInfo = { address: client[0], port: parseInt(client[1]) }
-                new SendHashCommand(clientInfo, udpFactory.get()).exec(data )
+                new HashCommand(clientInfo, udpFactory.get()).exec(data )
 
             }
         )

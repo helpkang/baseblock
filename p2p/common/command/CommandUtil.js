@@ -28,6 +28,7 @@ module.exports = {
 
     makeCommandData(command, data) {
         const commandBuffer = this.stringToBuffer(command)
+        if(!data) return commandBuffer
         const merge = this.merge(commandBuffer, data)
         return merge
     },
