@@ -1,6 +1,7 @@
 const dgram = require('dgram')
 
 const _ = require("underscore")
+const CommandUtil = require('../common/command/CommandUtil')
 
 class UdpServer {
     constructor(address, port) {
@@ -27,7 +28,9 @@ class UdpServer {
 
     send(text, remote, fn) {
         const clientBuffer = new Buffer(text)
-        this.socket.send(clientBuffer, 0, clientBuffer.length, remote.port, remote.address,
+        const commandBuffer = CommandUtil.makeCommandData('register', clientBuffer)
+        console.log('client reg=',commandBuffer.slice(1).toString())
+        this.socket.send(commandBuffer, 0, commandBuffer.length, remote.port, remote.address,
             function (err, nrOfBytesSent) {
                 fn(err, nrOfBytesSent)
             }

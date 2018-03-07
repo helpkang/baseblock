@@ -1,6 +1,17 @@
-class CommandHandlerRegister {
-    constructor(){
+const CommandUtil = require('./CommandUtil')
+
+module.exports= class CommandHandlerRegister {
+    constructor(udpClient){
+        this.udpClient = udpClient
         this.commands = {}
+    }
+
+    start(){
+        this.udpClient.onMessage((buf, remote)=>{
+            const {commandStr, command, dataBuffer} = this.parseCommand(buf)
+            console.log('commandStr', commandStr)
+            command && command.handle(commandStr, dataBuffer, remote)
+        })
     }
 
     add(command, handler){
@@ -11,11 +22,10 @@ class CommandHandlerRegister {
         return this.commands[command]
     }
 
-    parseCommand(buf){
-        const { commandStr, dataBuffer } = {} //CommandUtil.
-        const command = get(cmdStr)
-        return { commandStr, command, dataBuffer }
+    parseCommand(buf) {
+        const { commandStr, data } = CommandUtil.paseCommandData(buf)
+        const command = this.get(commandStr)
+        
+        return { commandStr, command, dataBuffer: data }
     }
 }
-
-module.exports = new CommandHandlerRegister()

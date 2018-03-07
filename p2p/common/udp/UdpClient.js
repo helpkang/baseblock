@@ -2,10 +2,7 @@ const dgram = require('dgram')
 const _ = require("underscore")
 const socket = dgram.createSocket('udp4');
 
-class UdpClinet {
-
-    constructor() {
-    }
+module.exports = class UdpClinet {
 
 
     onMessage(fn) {
@@ -28,5 +25,3 @@ class UdpClinet {
     }
 
 }
-
-module.exports = UdpClinet

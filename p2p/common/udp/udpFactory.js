@@ -8,7 +8,7 @@ const UdpFactory = function () {
             
             const oldInstance = instances[key]
             if (oldInstance) return oldInstance
-
+            
             const newInstance = new UdpClinet()
             instances[key] = newInstance
             return newInstance

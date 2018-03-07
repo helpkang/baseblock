@@ -40,10 +40,8 @@ class FileRandomRead {
         
         
         stream.on('data', (chunk) => {
-            console.log(chunk.length)
             const hashfunc = crypto.createHash(algorithum)
             const hash = hashfunc.update(chunk).digest(encoding)
-            console.log('hash len', hash.length)
             fs.writeAsync(wfd, hash)
             
         }).on('end', async () => {
@@ -63,10 +61,8 @@ class FileRandomRead {
         const zipStream = zlib.createGzip();
         zipStream.pipe(out)
         stream.on('data', (chunk) => {
-            console.log(chunk.length)
             const hashfunc = crypto.createHash(algorithum)
             const hash = hashfunc.update(chunk).digest()
-            console.log('hash len', hash.length)
             zipStream.write(hash, () => {})
             
         }).on('end', () => {
