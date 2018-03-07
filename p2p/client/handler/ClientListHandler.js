@@ -1,6 +1,6 @@
 const CommandHandler = require('../../common/command/CommandHandler')
 
-const FileRandomRmd160 = require('../file/FileRandomRmd160')
+
 const SendHashCommand = require('../command/SendHashCommand')
 const udpFactory = require('../../common/udp/udpFactory')
 module.exports = class ClientListHandler extends CommandHandler {
@@ -23,28 +23,22 @@ module.exports = class ClientListHandler extends CommandHandler {
 
     async sendMessage() {
         console.log('folder', this.blockFolder)
-        if (!this.blockFolder) return
+        if (!this.blockFolder) {
+            
+            const clients = this.clientStore.getArray()
+            clients.forEach(
+                (clientData) => {
+                    const client = clientData.split(',')
+                    const clientInfo = { address: client[0], port: parseInt(client[1]) }
+                    
+                    const GetHashCommand = require('../command/GetHashCommand')
+                    new GetHashCommand(clientInfo, udpFactory.get()).exec()
+                }
+            )
+            return
+        }
 
-        const frr = new FileRandomRmd160()
-        const hashes = await frr.makeHash(
-            {
-                encoding: 'base64',
-                fileName: this.blockFolder,
-                split: 2 * 1024
-            }
-        )
-        const data = JSON.stringify(hashes)
-
-        const clients = this.clientStore.getArray()
-        clients.forEach(
-            (clientData) => {
-
-                const client = clientData.split(',')
-                const clientInfo = { address: client[0], port: parseInt(client[1]) }
-                new SendHashCommand(clientInfo, udpFactory.get()).exec(data )
-
-            }
-        )
+      
     }
     //TODO: tracekr에서 온걸 확인 하기 위해서 인증서 기반으로 처리 하다록 변경
     isServerMessage(remote) {

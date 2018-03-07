@@ -37,7 +37,7 @@ module.exports = {
         const commandLen = buffer.readUInt8(0)
         
         const commandStr = buffer.slice(1, commandLen+1).toString()
-        const data = buffer.slice(commandLen+1)
+        const data = buffer.length> commandLen+1 ?  buffer.slice(commandLen+1) : new Buffer(0)
 
         return { commandStr, data }
     },
