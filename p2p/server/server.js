@@ -12,7 +12,6 @@ const udpServer = new UdpServer(config.address, config.port)
 udpServer.onMessage(function (message, remote) {
 
     const client = remote.address + "," + remote.port
-    log(client, ': message', message.toString('utf-8'))
     log('client list:', serverStore.getArray())
     serverStore.add(client)
 

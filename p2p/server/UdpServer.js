@@ -29,7 +29,6 @@ class UdpServer {
     send(text, remote, fn) {
         const clientBuffer = new Buffer(text)
         const commandBuffer = CommandUtil.makeCommandData('register', clientBuffer)
-        console.log('client reg=',commandBuffer.slice(1).toString())
         this.socket.send(commandBuffer, 0, commandBuffer.length, remote.port, remote.address,
             function (err, nrOfBytesSent) {
                 fn(err, nrOfBytesSent)
