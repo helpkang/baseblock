@@ -23,8 +23,7 @@ module.exports = class ClientListHandler extends CommandHandler {
 
     async sendMessage() {
         console.log('folder', this.blockFolder)
-        if (!this.blockFolder) {
-            
+        if (this.notExist()) {
             const clients = this.clientStore.getArray()
             clients.forEach(
                 (clientData) => {
@@ -43,6 +42,10 @@ module.exports = class ClientListHandler extends CommandHandler {
     //TODO: tracker 에서 온걸 확인 하기 위해서 인증서 기반 으로 처리 하다록 변경
     isServerMessage(remote) {
         return this.config.address === remote.address && this.config.port === remote.port
+    }
+    //TODO: temp file not exist check
+    notExist() {
+        return this.blockFolder !== './sample/sample.txt'
     }
 
 }
