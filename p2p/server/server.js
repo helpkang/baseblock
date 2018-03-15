@@ -9,14 +9,23 @@ const serverStore = new ServerStore()
 const UdpServer = require('./UdpServer')
 const udpServer = new UdpServer(config.address, config.port)
 
-udpServer.onMessage(function (message, remote) {
+const CommandHandlerRegister = require('../common/command/CommandHandlerRegister')
 
-    const client = remote.address + "," + remote.port
-    log('client list:', serverStore.getArray())
-    serverStore.add(client)
+const commandHandlerRegister = new CommandHandlerRegister(udpServer)
 
-    sendClients(client, remote)
-});
+const SetNodeHandler = require('./command/SetNodeHandler')
+commandHandlerRegister.add('setNode', new SetNodeHandler(serverStore, udpServer))
+commandHandlerRegister.start()
+
+
+// udpServer.onMessage(function (message, remote) {
+
+//     const client = remote.address + "," + remote.port
+//     log('client list:', serverStore.getArray())
+//     serverStore.add(client)
+
+//     sendClients(client, remote)
+// });
 
 udpServer.listening(
     addr => log('UDP Server listening on ' + addr.address + ":" + addr.port)

@@ -1,5 +1,6 @@
 const Command = require("../../common/command/Command")
 
+const CommandUtil = require('../../common/command/CommandUtil')
 
 module.exports = class RegisterCommand extends Command {
 
@@ -7,9 +8,10 @@ module.exports = class RegisterCommand extends Command {
         super(dest, udpClient)
     }
 
-    exec(message) {
-        const buf = (message instanceof Buffer) ? message : Buffer.from(message)
-        this._send(buf)
+    exec(data) {
+        const buf = (data instanceof Buffer) ? data : Buffer.from(data)
+        const message = CommandUtil.makeCommandData('setNode', buf)
+        this._send(message)
     }
 
 }
