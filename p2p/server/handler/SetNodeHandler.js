@@ -17,11 +17,17 @@ module.exports = class SetNodeHandler extends CommandHandler {
     this.sendClients(client, remote);
   }
 
-  sendClients(client, remote) {
-    let text = this.serverStore.getArrayFilterRandom(client, 3).join("|");
-    this.udpServer.send(text, remote, function(err, nrOfBytesSent) {
-      if (err) return log(err);
-      console.log("> send ", text, remote.address, remote.port);
-    });
+  sendClients(client, remote){
+    const NodesCommand = require('../command/NodesCommand')
+    const text = this.serverStore.getArrayFilterRandom(client, 3).join("|");
+    new NodesCommand(remote, this.udpServer).exec(text)
   }
+
+  // sendClients(client, remote) {
+  //   let text = this.serverStore.getArrayFilterRandom(client, 3).join("|");
+  //   this.udpServer.send(text, remote, function(err, nrOfBytesSent) {
+  //     if (err) return log(err);
+  //     console.log("> send ", text, remote.address, remote.port);
+  //   });
+  // }
 };

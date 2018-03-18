@@ -13,7 +13,7 @@ const CommandHandlerRegister = require('../common/command/CommandHandlerRegister
 
 const commandHandlerRegister = new CommandHandlerRegister(udpServer)
 
-const SetNodeHandler = require('./command/SetNodeHandler')
+const SetNodeHandler = require('./handler/SetNodeHandler')
 commandHandlerRegister.add('setNode', new SetNodeHandler(serverStore, udpServer))
 commandHandlerRegister.start()
 

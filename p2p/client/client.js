@@ -25,10 +25,10 @@ function setupHandler() {
 	const CommandHandlerRegister = require('../common/command/CommandHandlerRegister')
 	const commandHandlerRegister = new CommandHandlerRegister(udpFactory.get())
 
-	const ClientListHandler = require('./handler/ClientListHandler')
+	const NodesHandler = require('./handler/NodesHandler')
 	const GetHashHandler = require('./handler/GetHashHandler')
 	const SendHashHandler = require('./handler/SendHashHandler')
-	commandHandlerRegister.add('register', new ClientListHandler(clientStore, config, blockFolder))
+	commandHandlerRegister.add('nodes', new NodesHandler(clientStore, config, blockFolder))
 	commandHandlerRegister.add('gethash', new GetHashHandler(blockFolder))
 	commandHandlerRegister.add('sendhash', new SendHashHandler())
 	commandHandlerRegister.start()

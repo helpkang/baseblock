@@ -3,7 +3,7 @@ const CommandHandler = require('../../common/command/CommandHandler')
 
 const SendHashCommand = require('../command/SendHashCommand')
 const udpFactory = require('../../common/udp/udpFactory')
-module.exports = class ClientListHandler extends CommandHandler {
+module.exports = class NodesHandler extends CommandHandler {
     constructor(clientStore, config, blockFolder) {
         super()
         this.clientStore = clientStore
