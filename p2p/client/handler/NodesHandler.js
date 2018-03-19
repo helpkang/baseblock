@@ -23,15 +23,25 @@ module.exports = class NodesHandler extends CommandHandler {
 
     async sendMessage() {
         console.log('folder', this.blockFolder)
+        const clients = this.clientStore.getArray()
+            clients.forEach(
+                (clientData) => {
+                    const client = clientData.split(',')
+                    const clientInfo = { address: client[0], port: parseInt(client[1]) }
+                    
+                    const GetLastBlockInfoCommand = require('../command/GetLastBlockInfoCommand')
+                    new GetLastBlockInfoCommand(clientInfo, udpFactory.get()).exec()
+                }
+            )
+  
         if (this.notExist()) {
             const clients = this.clientStore.getArray()
             clients.forEach(
                 (clientData) => {
                     const client = clientData.split(',')
                     const clientInfo = { address: client[0], port: parseInt(client[1]) }
-                    
-                    const GetHashCommand = require('../command/GetHashCommand')
-                    new GetHashCommand(clientInfo, udpFactory.get()).exec()
+                    // const GetHashCommand = require('../command/GetHashCommand')
+                    // new GetHashCommand(clientInfo, udpFactory.get()).exec()
                 }
             )
             return

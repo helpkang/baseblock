@@ -18,15 +18,6 @@ commandHandlerRegister.add('setNode', new SetNodeHandler(serverStore, udpServer)
 commandHandlerRegister.start()
 
 
-// udpServer.onMessage(function (message, remote) {
-
-//     const client = remote.address + "," + remote.port
-//     log('client list:', serverStore.getArray())
-//     serverStore.add(client)
-
-//     sendClients(client, remote)
-// });
-
 udpServer.listening(
     addr => log('UDP Server listening on ' + addr.address + ":" + addr.port)
 )

@@ -18,6 +18,7 @@ module.exports = class SendHashHandler extends CommandHandler {
             split: 2 * 1024
         })
         const data = JSON.stringify(hashes)
+        console.log('hashdata', data)
 
         new SendHashCommand(remote, udpFactory.get()).exec(data)
     }

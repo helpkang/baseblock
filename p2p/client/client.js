@@ -28,8 +28,10 @@ function setupHandler() {
 	const NodesHandler = require('./handler/NodesHandler')
 	const GetHashHandler = require('./handler/GetHashHandler')
 	const SendHashHandler = require('./handler/SendHashHandler')
+	const GetLastBlockInfoHandler = require('./handler/GetLastBlockInfoHandler')
 	commandHandlerRegister.add('nodes', new NodesHandler(clientStore, config, blockFolder))
 	commandHandlerRegister.add('gethash', new GetHashHandler(blockFolder))
 	commandHandlerRegister.add('sendhash', new SendHashHandler())
+	commandHandlerRegister.add('getLastBlockInfo', new GetLastBlockInfoHandler())
 	commandHandlerRegister.start()
 }
