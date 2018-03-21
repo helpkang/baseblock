@@ -7,7 +7,7 @@ const CommandHandler = require('../../common/command/CommandHandler')
 const LastBlockInfoCommand = require('../command/LastBlockInfoCommand')
 
 
-module.exports = class GetLastBlockInfoHandler extends CommandHandler {
+module.exports = class GetBlockInfoHandler extends CommandHandler {
 
     constructor(udpClient, blockFolder){
         super()
