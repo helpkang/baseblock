@@ -33,7 +33,7 @@ function setupHandler() {
 	commandHandlerRegister.add('nodes', new NodesHandler(clientStore, config, blockFolder))
 	commandHandlerRegister.add('gethash', new GetHashHandler(blockFolder))
 	commandHandlerRegister.add('sendhash', new SendHashHandler())
-	commandHandlerRegister.add('getLastBlockInfo', new GetLastBlockInfoHandler(udpFactory.get()))
+	commandHandlerRegister.add('getLastBlockInfo', new GetLastBlockInfoHandler(udpFactory.get(), blockFolder))
 	commandHandlerRegister.add('lastBlockInfo', new LastBlockInfoHandler(udpFactory.get()))
 	commandHandlerRegister.start()
 }
