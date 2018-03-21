@@ -9,10 +9,9 @@ const LastBlockInfoCommand = require('../command/LastBlockInfoCommand')
 
 module.exports = class GetLastBlockInfoHandler extends CommandHandler {
 
-    constructor(udpClient, blockFolder){
+    constructor(udpClient){
         super()
         this.udpClient = udpClient
-        this.blockFolder = blockFolder
     }
 
     async handle(commandStr, buffer, remote) {
@@ -25,19 +24,15 @@ module.exports = class GetLastBlockInfoHandler extends CommandHandler {
     }
 
     async getMax(){
-        try{
-            const list = await fs.readdirAsync(this.blockFolder)
-            const max = list
-            .map((v)=>parseInt(v))
-            .reduce(function(a, b) {
-                return Math.max(a, b);
-            })
-    
-            return max + ""
-        } catch(e){
-            // console.log(e)
-            return ""
-        }
+
+        const list = await fs.readdirAsync('./sample')
+        const max = list
+        .map((v)=>parseInt(v))
+        .reduce(function(a, b) {
+            return Math.max(a, b);
+        })
+
+        return max + ""
     }
 
 }
