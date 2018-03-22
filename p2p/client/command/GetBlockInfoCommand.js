@@ -9,8 +9,8 @@ module.exports = class GetBlockInfoCommand extends Command {
     }
 
     exec(data) {
-        const message = CommandUtil.makeCommandData('getBlockInfo')
-        this._send(message)
+        const message = CommandUtil.makeCommandData('getBlockInfo', Buffer.from(data))
+        // this._send(message)
     }
 
 }

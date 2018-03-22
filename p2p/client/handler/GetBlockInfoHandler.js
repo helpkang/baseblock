@@ -4,10 +4,10 @@ const fs = Promise.promisifyAll(require("fs"))
 
 const CommandHandler = require('../../common/command/CommandHandler')
 
-const LastBlockInfoCommand = require('../command/LastBlockInfoCommand')
+const BlockInfoCommand = require('../command/BlockInfoCommand')
 
 
-module.exports = class GetLastBlockInfoHandler extends CommandHandler {
+module.exports = class GetBlockInfoHandler extends CommandHandler {
 
     constructor(udpClient, blockFolder){
         super()
@@ -16,11 +16,11 @@ module.exports = class GetLastBlockInfoHandler extends CommandHandler {
     }
 
     async handle(commandStr, buffer, remote) {
-        console.log('getLastBlockInfoHandler', buffer.toString())
+        console.log('getBlockInfoHandler', buffer.toString())
 
-        const max = await this.getMax()
+        // const max = await this.getMax()
 
-        new LastBlockInfoCommand(remote, this.udpClient).exec(max)
+        // new BlockInfoCommand(remote, this.udpClient).exec(max)
 
     }
 
