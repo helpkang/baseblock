@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "client",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/p2p/client/client.js",
+            "args": [
+                "./sample"
+            ]
+        },
+    ]
+}
