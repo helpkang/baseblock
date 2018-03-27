@@ -25,7 +25,7 @@ module.exports = class GetLastBlockInfoHandler extends CommandHandler {
     }
 
     async getMax(){
-
+        createDir(this.blockFolder)
         const max =  await fs.readdirAsync(this.blockFolder)
         .map((v)=>parseInt(v))
         .reduce(function(a, b) {
@@ -35,4 +35,10 @@ module.exports = class GetLastBlockInfoHandler extends CommandHandler {
         return max + ""
     }
 
+}
+
+function createDir(dir) {
+	if (!fs.existsSync(dir)) {
+		fs.mkdirSync(dir);
+	}
 }

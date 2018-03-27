@@ -2,14 +2,14 @@ const Command = require("../../common/command/Command")
 
 const CommandUtil = require('../../common/command/CommandUtil')
 
-module.exports = class GetBlockInfoCommand extends Command {
+module.exports = class BlockInfoCommand extends Command {
 
     constructor(dest, udpClient) {
         super(dest, udpClient)
     }
 
     exec(data) {
-        const message = CommandUtil.makeCommandData('getBlockInfo', Buffer.from(data))
+        const message = CommandUtil.makeCommandData('blockInfo')
         this._send(message)
     }
 

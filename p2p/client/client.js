@@ -3,7 +3,6 @@ const fs = Promise.promisifyAll(require("fs"))
 
 const blockFolder = process.argv.slice(2)[0] ? process.argv.slice(2)[0] : ''
 
-createDir(blockFolder)
 
 const config = require('./config')
 
@@ -34,7 +33,7 @@ function setupHandler() {
 	const SendHashHandler = require('./handler/SendHashHandler')
 	const GetLastBlockInfoHandler = require('./handler/GetLastBlockInfoHandler')
 	const LastBlockInfoHandler = require('./handler/LastBlockInfoHandler')
-	// const GetLastBlockInfoHandler = require('./handler/GetLastBlockInfoHandler')
+	const GetBlockInfoHandler = require('./handler/GetBlockInfoHandler')
 	// const LastBlockInfoHandler = require('./handler/LastBlockInfoHandler')
 
 
@@ -43,12 +42,7 @@ function setupHandler() {
 	// commandHandlerRegister.add('sendhash', new SendHashHandler())
 	commandHandlerRegister.add('getLastBlockInfo', new GetLastBlockInfoHandler(udpFactory.get(), blockFolder))
 	commandHandlerRegister.add('lastBlockInfo', new LastBlockInfoHandler(udpFactory.get()))
+	commandHandlerRegister.add('getBlockInfo', new GetBlockInfoHandler(udpFactory.get(), blockFolder))
+	// commandHandlerRegister.add('lastBlockInfo', new LastBlockInfoHandler(udpFactory.get()))
 	commandHandlerRegister.start()
-}
-
-
-function createDir(dir) {
-	if (!fs.existsSync(dir)) {
-		fs.mkdirSync(dir);
-	}
 }
