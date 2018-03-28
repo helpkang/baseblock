@@ -9,7 +9,7 @@ module.exports = class BlockInfoCommand extends Command {
     }
 
     exec(data) {
-        const message = CommandUtil.makeCommandData('blockInfo')
+        const message = CommandUtil.makeCommandData('blockInfo', data)
         this._send(message)
     }
 

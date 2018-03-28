@@ -18,21 +18,10 @@ module.exports = class GetBlockInfoHandler extends CommandHandler {
     async handle(commandStr, buffer, remote) {
         console.log('getBlockInfoHandler', buffer.toString())
 
-        // const max = await this.getMax()
 
-        // new BlockInfoCommand(remote, this.udpClient).exec(max)
+        new BlockInfoCommand(remote, this.udpClient).exec(Buffer.from("ret:"+buffer.toString()))
 
     }
 
-    async getMax(){
-
-        const max =  await fs.readdirAsync(this.blockFolder)
-        .map((v)=>parseInt(v))
-        .reduce(function(a, b) {
-            return Math.max(a, b);
-        }, -1)
-
-        return max + ""
-    }
 
 }

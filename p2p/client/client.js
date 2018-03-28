@@ -34,7 +34,7 @@ function setupHandler() {
 	const GetLastBlockInfoHandler = require('./handler/GetLastBlockInfoHandler')
 	const LastBlockInfoHandler = require('./handler/LastBlockInfoHandler')
 	const GetBlockInfoHandler = require('./handler/GetBlockInfoHandler')
-	// const LastBlockInfoHandler = require('./handler/LastBlockInfoHandler')
+	const BlockInfoHandler = require('./handler/BlockInfoHandler')
 
 
 	commandHandlerRegister.add('nodes', new NodesHandler(clientStore, config, blockFolder))
@@ -43,6 +43,6 @@ function setupHandler() {
 	commandHandlerRegister.add('getLastBlockInfo', new GetLastBlockInfoHandler(udpFactory.get(), blockFolder))
 	commandHandlerRegister.add('lastBlockInfo', new LastBlockInfoHandler(udpFactory.get()))
 	commandHandlerRegister.add('getBlockInfo', new GetBlockInfoHandler(udpFactory.get(), blockFolder))
-	// commandHandlerRegister.add('lastBlockInfo', new LastBlockInfoHandler(udpFactory.get()))
+	commandHandlerRegister.add('blockInfo', new BlockInfoHandler(udpFactory.get()))
 	commandHandlerRegister.start()
 }
