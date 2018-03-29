@@ -29,8 +29,8 @@ function setupHandler() {
 	const commandHandlerRegister = new CommandHandlerRegister(udpFactory.get())
 
 	const NodesHandler = require('./handler/NodesHandler')
-	const GetHashHandler = require('./handler/GetHashHandler')
-	const SendHashHandler = require('./handler/SendHashHandler')
+	// const GetHashHandler = require('./handler/GetHashHandler')
+	// const SendHashHandler = require('./handler/SendHashHandler')
 	const GetLastBlockInfoHandler = require('./handler/GetLastBlockInfoHandler')
 	const LastBlockInfoHandler = require('./handler/LastBlockInfoHandler')
 	const GetBlockInfoHandler = require('./handler/GetBlockInfoHandler')
@@ -38,8 +38,6 @@ function setupHandler() {
 
 
 	commandHandlerRegister.add('nodes', new NodesHandler(clientStore, config, blockFolder))
-	// commandHandlerRegister.add('gethash', new GetHashHandler(blockFolder))
-	// commandHandlerRegister.add('sendhash', new SendHashHandler())
 	commandHandlerRegister.add('getLastBlockInfo', new GetLastBlockInfoHandler(udpFactory.get(), blockFolder))
 	commandHandlerRegister.add('lastBlockInfo', new LastBlockInfoHandler(udpFactory.get()))
 	commandHandlerRegister.add('getBlockInfo', new GetBlockInfoHandler(udpFactory.get(), blockFolder))
