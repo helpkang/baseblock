@@ -6,6 +6,9 @@ class Transaction {
         this.toAddress = toAddress
         this.amount = amount
     }
+    toString(){
+        return this.fromAddress+this.toAddress+this.amount
+    }
 }
 
 class Block{
@@ -18,7 +21,7 @@ class Block{
     }
 
     calculateHash() {
-        const dest = this.previousHash + this.timestamp + JSON.stringify(this.transactions)+this.nonce
+        const dest = this.previousHash + this.timestamp + this.transactions.map(transaction=>transaction.toString()).join('')+this.nonce
         const hashFunc = crypto.createHash('sha256')
         const hash = hashFunc.update(dest).digest('hex')
         return hash
@@ -110,5 +113,5 @@ coin.minePendingTransactions('coin')
 console.log('Balance of coin is', coin.getBalanceOfAddress('coin') )
 
 console.log('block chain')
-// console.log(JSON.stringify(coin, null, 4))
+console.log(JSON.stringify(coin, null, 4))
 
